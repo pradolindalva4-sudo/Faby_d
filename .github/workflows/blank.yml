@@ -1,0 +1,22 @@
+name: TRABALHAR_NO_ZIP
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Abrir e Construir
+        run: |
+          # O robô vai dar permissão e fabricar o APK
+          chmod +x gradlew
+          ./gradlew assembleDebug -x test
+      - name: Entregar APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: meu_apk_pronto
+          path: "**/*.apk"
